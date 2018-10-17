@@ -1,6 +1,8 @@
-#! /bin/bash
+#! /usr/bin/env bash
 set -e -o pipefail
 
-mc config host add acme "$MINIO_SERVER" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" "$MINIO_API_VERSION" > /dev/null
+export AWS_ACCESS_KEY_ID="${MINIO_ACCESS_KEY-$AWS_ACCESS_KEY_ID}"
+export AWS_SECRET_ACCESS_KEY="${MINIO_SECRET_KEY-$AWS_SECRET_ACCESS_KEY}"
 
-mc mirror -w $SECRETS_VOLUME acme/${MINIO_BUCKET}
+mkdir -p ${SECRETS_VOLUME}
+/usr/bin/goofys --endpoint $MINIO_SERVER -f ${MINIO_BUCKET} ${SECRETS_VOLUME}
