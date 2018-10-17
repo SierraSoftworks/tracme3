@@ -7,6 +7,7 @@ RUN wget -O /usr/bin/mc https://dl.minio.io/client/mc/release/linux-amd64/mc
 RUN chmod +x /usr/bin/mc
 
 ADD entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
 ENV MINIO_SERVER=""
 ENV MINIO_BUCKET="acme"
