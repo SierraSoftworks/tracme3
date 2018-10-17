@@ -1,8 +1,7 @@
-#! /usr/bin/env bash
+#! /bin/sh
 set -e -o pipefail
 
-export AWS_ACCESS_KEY_ID="${MINIO_ACCESS_KEY-$AWS_ACCESS_KEY_ID}"
-export AWS_SECRET_ACCESS_KEY="${MINIO_SECRET_KEY-$AWS_SECRET_ACCESS_KEY}"
+mc config host add acme "$MINIO_SERVER" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" "$MINIO_API_VERSION" > /dev/null
 
-mkdir -p ${SECRETS_VOLUME}
-/usr/bin/goofys --endpoint $MINIO_SERVER -f ${MINIO_BUCKET} ${SECRETS_VOLUME}
+mc cp --recursive acme/${MINIO_BUCKET}/ ${SECRETS_VOLUME}/
+mc mirror -w --overwrite $SECRETS_VOLUME/ acme/${MINIO_BUCKET}
