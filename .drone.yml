@@ -1,0 +1,7 @@
+pipeline:
+  publish:docker:
+    image: plugins/docker
+    repo: sierrasoftworks/tracme3
+    tag:
+      - latest
+    secrets: [ docker_username, docker_password ]
